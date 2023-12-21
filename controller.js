@@ -150,13 +150,14 @@ exports.GetTaskbyState = async (req, res, next) => {
       return
     }
 
-    const [row1, fields1] = await connection.promise().query("SELECT * FROM task WHERE Task_state = ? AND Task_app_Acronym = ?", [Task_state, Task_app_Acronym])
-    if (row1.length === 0) {
+    let states = ["Open", "ToDo", "Doing", "Done", "Close"]
+    if (!states.includes(Task_state)) {
       res.json({
         code: "T002"
       })
-      return
     }
+
+    const [row1, fields1] = await connection.promise().query("SELECT * FROM task WHERE Task_state = ? AND Task_app_Acronym = ?", [Task_state, Task_app_Acronym])
 
     res.json({
       code: "S001",
@@ -235,8 +236,7 @@ exports.PromoteTask2Done = async (req, res, next) => {
       return
     }
 
-    const [row2, fields2] = await connection.promise().query("SELECT * FROM task WHERE Task_state = ? AND Task_app_Acronym = ?", ["Doing", Task_app_Acronym])
-    if (row2.length === 0) {
+    if (row1[0].Task_state !== "Doing") {
       res.json({
         code: "T002"
       })

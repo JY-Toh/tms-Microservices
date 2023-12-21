@@ -155,6 +155,7 @@ exports.GetTaskbyState = async (req, res, next) => {
       res.json({
         code: "T002"
       })
+      return
     }
 
     const [row1, fields1] = await connection.promise().query("SELECT * FROM task WHERE Task_state = ? AND Task_app_Acronym = ?", [Task_state, Task_app_Acronym])

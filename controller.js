@@ -103,6 +103,7 @@ exports.CreateTask = async (req, res, next) => {
       code: "S001"
     })
   } catch (e) {
+    console.log(e)
     res.json({
       code: "T003"
     })
